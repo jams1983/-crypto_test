@@ -1,0 +1,61 @@
+<%= turbo_frame_tag do %>
+  <%= form_with url: calculate_url, method: :post do |form| %>
+    <div class="row pb-2">
+      <div class="col-4">
+        <%= form.label :investment_value, 'Investment value' %>
+        <div class="input-group">
+          <div class="input-group-text">USD</div>
+          <%= form.number_field :investment_value, class: 'form-control', required: true %>
+        </div>
+      </div>
+      <div class="col-4">
+        <%= form.label :cryptocurrency %>
+        <%= form.collection_select :cryptocurrency_id, @cryptocurrencies, :id, :name, { prompt: 'Select a cryptocurrency' }, class: 'form-select', required: true %>
+      </div>
+      <div class="col-1">
+        <%= form.submit "Calculate", class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="row" data-turbo-frame id="result">
+
+</div>
+<hr>
+<h5>Crypto prices</h5>
+<div class="row pb-2">
+  <div class="col">Name</div>
+  <div class="col">Price</div>
+  <div class="col">Monthly rate</div>
+</div>
+<% @cryptocurrencies.each do |cryptocurrency| %>
+  <div class="row pb-2">
+    <div class="col">
+      <h6>
+        <%= image_tag(image_url(cryptocurrency.name.downcase), size: 30) %>
+        <%= cryptocurrency.name %>
+        <small class="text-body-secondary">
+          <%= cryptocurrency.code %>
+
+        </small>
+      </h6>
+    </div>
+
+    <div class="col">
+      <%= number_to_currency(cryptocurrency.rate, unit: 'US$', separator: ',', delimiter: '', format: '%n %u') %>
+    </div>
+
+    <div class="col">
+      <%= number_to_percentage(cryptocurrency.monthly_rate, delimiter: '.', separator: ',', precision: 2) %>
+    </div>
+  </div>
+<% end %>
+<div class="row ">
+  <span>
+    Export
+    <%= link_to "csv", root_path(format: 'csv') %> |
+    <%= link_to "json", root_path(format: 'json'), target: '_blank' %>
+  </span>
+</div>
+

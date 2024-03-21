@@ -1,0 +1,28 @@
+<div class="card" style="width: 50%;">
+  <div class="card-body">
+    <h5 class="card-title">
+      <%= image_tag(image_url(cryptocurrency.name.downcase), size: 30) %>
+      <%= cryptocurrency.name %>
+      <small class="text-body-secondary">
+        <%= cryptocurrency.code %>
+      </small>
+    </h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <strong>Price:</strong> <%= number_to_currency(cryptocurrency.rate, unit: 'US$', separator: ',', delimiter: '', format: '%n %u') %>
+    </li>
+    <li class="list-group-item">
+      <strong>Monthly rate:</strong> <%= number_to_percentage(cryptocurrency.monthly_rate, delimiter: '.', separator: ',', precision: 2) %>
+    </li>
+    <li class="list-group-item">
+      <strong>Amount of crypto:</strong> <%= number_to_currency(crypto_value, unit: cryptocurrency.code, separator: ',', delimiter: '', format: '%n %u') %>
+    </li>
+    <li class="list-group-item">
+      <strong>Annual Profit in Crypto:</strong> <%= number_to_currency(annual_profit_crypto, unit: cryptocurrency.code, separator: ',', delimiter: '', format: '%n %u') %>
+    </li>
+    <li class="list-group-item">
+      <strong>Annual Profit in USD:</strong> <%= number_to_currency(annual_profit_usd, unit: 'US$', separator: ',', delimiter: '', format: '%n %u') %>
+    </li>
+  </ul>
+</div>
